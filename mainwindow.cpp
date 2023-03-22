@@ -1,11 +1,9 @@
 #include "mainwindow.h"
-#include <QProcessEnvironment>
 #include <QString>
-QProcessEnvironment env1 = QProcessEnvironment::systemEnvironment();
-QString shellVariable1 = env1.value("UTOPIA_HOME");
+
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent){
   setWindowTitle(tr("Utopia"));
-  setmenu();
+  setMenu();
   QString save_results = "";
   QString pathOpenfile="";
 }
@@ -16,7 +14,7 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::execSettings(const QString &path){
-  QString fileName = path1;
+  QString fileName = pathFile;
   if (fileName.isNull()) {
 
     fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("Text Files (*)"));
@@ -31,7 +29,7 @@ void MainWindow::execSettings(const QString &path){
     while (!in.atEnd()) {
 
       QString line = in.readLine();
-      path1 += line;
+      pathFile += line;
     }
   }
   else {
@@ -40,10 +38,10 @@ void MainWindow::execSettings(const QString &path){
 
 }
 void MainWindow::openFile(const QString &path){
-  QString fileName = path1;
+  QString fileName = pathFile;
   if (fileName.isNull()) {
 
-    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home/ivan/utopia_run/test/data/ril/test.ril", tr("RIL Files (*.ril)"));
+    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("RIL Files (*.ril)"));
     pathOpenfile=fileName;
   }
   if (!fileName.isEmpty()) {
@@ -66,18 +64,6 @@ void MainWindow::openFile(const QString &path){
 
 }
 
-void MainWindow::showresult() {
-    
-  QProcess process(this);
-  process.start(path1);
-  process.waitForReadyRead();
-  process.write("key");
-  process.waitForBytesWritten();
-  process.waitForReadyRead();
-  path1+=process.readAll();
-  process.waitForFinished();
-  path1="";
-}
 void MainWindow::save(){
     
   QString fileName = pathOpenfile;
@@ -85,8 +71,7 @@ void MainWindow::save(){
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
       qDebug()<<"the file did not open"; 
-    }
-    else {
+    }else {
       QTextStream stream(&file);
       stream << edit->toPlainText();
       stream.flush();
@@ -96,13 +81,12 @@ void MainWindow::save(){
 }
 void MainWindow::SaveAs(){
     
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить как"), shellVariable1+"test/data/ril/test.ril",tr("Text file (*.txt );; RIL file (*.ril )"));
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save as"), shellVariable1+"test/data/ril/test.ril",tr("Text file (*.txt );; RIL file (*.ril )"));
   if (fileName != "") {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
       qDebug()<<"the file did not open";
-    }
-    else {
+    }else {
            QTextStream stream(&file);
            stream << edit->toPlainText();
            stream.flush();
@@ -111,7 +95,7 @@ void MainWindow::SaveAs(){
         }
 }
 void MainWindow::runUtopia(){
-  cho = new chooze(this);
+  cho = new windowRun(this);
   cho->show();
 }
 
@@ -119,7 +103,7 @@ void MainWindow::runUtopia(){
 void MainWindow::exportResults(){}
 
 
-void MainWindow::setmenu () {
+void MainWindow::setMenu () {
     
 menu = menuBar()->addMenu(tr("&File"));
 menu->addAction(tr("Open file"), this, SLOT(openFile()), QKeySequence(tr("Ctrl+N","File|New")));
