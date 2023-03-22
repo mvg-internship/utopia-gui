@@ -1,6 +1,5 @@
 #ifndef CODEEDITOR_H
 #define CODEEDITOR_H
-
 #include <QPlainTextEdit>
 #include <QPainter>
 #include <QTextBlock>
@@ -19,36 +18,33 @@ class LineNumberArea;
 class CodeEditor : public QPlainTextEdit {
 Q_OBJECT
 
-  public:
-    void change_();
-    void contextMenuEvent(QContextMenuEvent *event );
-    CodeEditor(QWidget *parent = nullptr);
-    QMenu *contmenu;
-    QAction *c1;
-    QAction *c2;
-    QAction *c3;
-    QAction *c4;
-    QAction *c5;
-    QAction *c6;
-    QAction *c7;
-    QAction *c8;
-    QAction *c9;
-    QColor lineColor = QColor(Qt::magenta).lighter(160);
-    QBrush grey = Qt::red;
-    bool f = true;
-    bool tmp = 1;
+public:
+  void change_();
+  void contextMenuEvent(QContextMenuEvent *event );
+  CodeEditor(QWidget *parent = nullptr);
+  QMenu *contMenu;
+  QAction *paste;
+  QAction *copy;
+  QAction *cut;
+  QAction *selectLine;
+  QAction *undo;
+  QAction *redo;
+  QAction *selectW;
+  QAction *del;
+  QAction *selectA;
+  QColor lineColor = QColor(Qt::magenta).lighter(160);
+  QBrush grey = Qt::red;
+  bool f = true;
 
-  public slots:
-    void select_word();
-    void select_current_line();
-    void redo_1();
-    void undo_1();
+public slots:
+  void selectWord();
+  void selectCurrent();
 
-  private slots:
-    void highlightCurrentLine();
+private slots:
+  void highlightCurrentLine();
 
-  private:
-    QWidget *lineNumberArea;
+private:
+  QWidget *lineNumberArea;
 };
 
 #endif // CODEEDITOR_H
