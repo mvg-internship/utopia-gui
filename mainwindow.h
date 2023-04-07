@@ -15,13 +15,17 @@
 #include "codeeditor.h"
 #include <QPushButton>
 #include <QProcessEnvironment>
+#include <QGraphicsView>
+#include <QGraphicsLineItem>
+#include <QXmlStreamReader>
+#include <QRect>
 #include <stdio.h>
 #include <string.h>
+
 QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
 Q_OBJECT
 
 private slots:
@@ -29,7 +33,7 @@ private slots:
   void openFile(const QString &path = QString());
   void save();
   void SaveAs();
-  void runUtopia();;
+  void runUtopia();
   void exportResults();
 
 
@@ -48,5 +52,10 @@ private:
   windowRun *cho;
   const QProcessEnvironment env1 = QProcessEnvironment::systemEnvironment();
   const QString shellVariable1 = env1.value("UTOPIA_HOME");
+  void loadGraph(QString filename, QMap<QString, QVector<QString>> &adjList);
+  QMap<QString, QVector<QString>> adjList;
+  void displayGraph(QMap<QString, QVector<QString>>&adjList);
+  QGraphicsScene *scene;
+  QMap<QString, QGraphicsEllipseItem*> nodes;
 };
 #endif // MAINWINDOW_H
