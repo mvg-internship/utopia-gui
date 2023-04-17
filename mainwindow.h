@@ -9,6 +9,7 @@
 #include "windowrun.h"
 #include <qdebug.h>
 #include <QToolButton>
+#include <QtMath>
 #include <QMenu>
 #include <QMenuBar>
 #include <QDebug>
@@ -19,6 +20,8 @@
 #include <QGraphicsLineItem>
 #include <QXmlStreamReader>
 #include <QRect>
+#include <QtGlobal>
+#include <random>
 #include <stdio.h>
 #include <string.h>
 

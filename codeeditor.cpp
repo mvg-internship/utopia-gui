@@ -57,7 +57,7 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent *event ) {
   cut->setEnabled(!f);
   paste->setEnabled(!f);
   contMenu->exec(event->globalPos());
-  f= true;
+  f = true;
 }
 
 void CodeEditor::selectWord() {
@@ -72,5 +72,5 @@ void CodeEditor::selectCurrent() {
 }
 
 void CodeEditor::change_() {
-  f= false;
+  f = false;
 }
