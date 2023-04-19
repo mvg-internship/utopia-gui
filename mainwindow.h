@@ -24,11 +24,14 @@
 #include <random>
 #include <stdio.h>
 #include <string.h>
+#include <graphviz/gvc.h>
+#include <graphviz/cgraph.h>
 
 QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
+
 Q_OBJECT
 
 private slots:
@@ -60,5 +63,6 @@ private:
   void displayGraph(QMap<QString, QVector<QString>>&adjList);
   QGraphicsScene *scene;
   QMap<QString, QGraphicsEllipseItem*> nodes;
+
 };
 #endif // MAINWINDOW_H

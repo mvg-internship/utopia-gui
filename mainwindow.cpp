@@ -129,71 +129,51 @@ void MainWindow::loadGraph(QString filename, QMap<QString, QVector<QString>> &ad
   file.close();
 }
 
-void MainWindow::displayGraph(QMap<QString, QVector<QString>>& adjList) {
-  // Set up the parameters for the layout
-  qreal k = 0.2;
-  qreal damping = 0.9;
-  qreal threshold = 0.1;
-  qreal nodeSize = 25;
+void MainWindow::displayGraph(QMap<QString, QVector<QString>> &adjList) {
+  GVC_t *gvc;
+  Agraph_t *g;
+  Agnode_t *n, *m;
+  Agedge_t *e;
 
-  // Set up the initial positions of the nodes
-  QMap<QString, QPointF> positions;
-  qreal x = 0.0;
-  qreal y = 0.0;
-  qreal delta = 2 * M_PI / adjList.size();
-  for (const QString& key : adjList.keys()) {
-    positions[key] = QPointF(400 + 200 * cos(x), 300 + 200 * sin(y));
-    x += delta;
-    y += delta;
-    }
+  gvc = gvContext();
 
-    // Create the scene and add the nodes
-  QGraphicsScene* scene = new QGraphicsScene();
-  QMap<QString, QGraphicsEllipseItem*> nodes;
-  for (const QString& key : adjList.keys()) {
-    qreal x = positions[key].x();
-    qreal y = positions[key].y();
-    QGraphicsEllipseItem* node = scene->addEllipse(QRectF(x - nodeSize/2, y - nodeSize/2, nodeSize, nodeSize));
-    node->setBrush(Qt::blue);
-    nodes[key] = node;
-    QGraphicsTextItem* label = new QGraphicsTextItem(key);
-    label->setPos((x - nodeSize / 4) - 20, (y - nodeSize / 4) + 15);
-    scene->addItem(label);
-    }
+  g = agopen("G", Agdirected, NULL);
 
-    // Add the edges
+  QMap<QString, Agnode_t*> nodes;
   for (const QString& key : adjList.keys()) {
-    for (const QString& neighbor : adjList[key]) {
-      QGraphicsLineItem* edge = scene->addLine(QLineF(positions[key], positions[neighbor]));
-      edge->setPen(QPen(Qt::black, 1));
-      }
+    n = agnode(g, NULL, TRUE);
+    agsafeset(n, const_cast<char*>("label"), const_cast<char*>(key.toUtf8().constData()), const_cast<char*>(""));
+    nodes[key] = n;
   }
 
-    // Perform the layout
-  qreal energy = 0.0;
-  do {
-    energy = 0.0;
-    for (const QString& key1 : adjList.keys()) {
-      for (const QString& key2 : adjList.keys()) {
-        if (key1 == key2) {
-          continue;
-        }
-        QPointF delta = positions[key2] - positions[key1];
-        qreal distance = qMax(delta.manhattanLength(), qreal(1.0));
-        QPointF force = delta / distance * k;
-        force -= positions[key1] * damping;
-        positions[key1] += force;
-        nodes[key1]->setPos(positions[key1]);
-        energy += force.x() * force.x() + force.y() * force.y();
-        }
+  for (const QString& key : adjList.keys()) {
+    for (const QString& neighbor : adjList[key]) {
+      n = nodes[key];
+      m = nodes[neighbor];
+      e = agedge(g, n, m, NULL, TRUE);
     }
-  } while (energy > threshold);
+  }
 
-  // Create the view and show it
-  QGraphicsView* view = new QGraphicsView(scene);
-  view->setRenderHint(QPainter::Antialiasing);
+  gvLayout(gvc, g, "dot");
+
+  char *renderData;
+  unsigned int renderDataLength;
+  gvRenderData(gvc, g, "png", &renderData, &renderDataLength);
+
+  QImage image;
+  image.loadFromData((uchar*)renderData, renderDataLength);
+
+  QGraphicsScene *scene = new QGraphicsScene();
+  QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+  scene->addItem(item);
+  QGraphicsView *view = new QGraphicsView(scene);
   view->setWindowTitle("Graph");
   view->show();
+
+  gvFreeRenderData(renderData);
+  gvFreeLayout(gvc, g);
+  agclose(g);
+  gvFreeContext(gvc);
 }
 void MainWindow::exportResults(){
   QMap<QString, QVector<QString>> adjList;
