@@ -1,10 +1,13 @@
 # utopia-gui
 GUI for the Utopia EDA
 ### Compiling from Command Line
-mkdir build 
+make 
 
-cd build
+cmake ./
 
-cmake ..
+### Upload GraphViz
 
-make
+sudo apt-get install graphviz
+
+
+
