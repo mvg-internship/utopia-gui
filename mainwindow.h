@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "codeeditor.h"
+#include <graphviz/gvc.h>
+#include <graphviz/cgraph.h>
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QPushButton>
@@ -13,7 +16,6 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QDebug>
-#include "codeeditor.h"
 #include <QPushButton>
 #include <QProcessEnvironment>
 #include <QGraphicsView>
@@ -24,8 +26,7 @@
 #include <random>
 #include <stdio.h>
 #include <string.h>
-#include <graphviz/gvc.h>
-#include <graphviz/cgraph.h>
+
 
 QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
