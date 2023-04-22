@@ -178,7 +178,6 @@ void MainWindow::displayGraph(QMap<QString, QVector<QString>> &adjList) {
 void MainWindow::exportResults(){
   QMap<QString, QVector<QString>> adjList;
   QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("XML Files (*.xml)"));
-
   loadGraph(fileName, adjList);
   displayGraph(adjList);
 }

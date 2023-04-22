@@ -26,8 +26,6 @@
 #include <random>
 #include <stdio.h>
 #include <string.h>
-
-
 QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
 
@@ -42,7 +40,6 @@ private slots:
   void SaveAs();
   void runUtopia();
   void exportResults();
-
 
 public:
   MainWindow(QWidget *parent = nullptr);
