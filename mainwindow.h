@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "codeeditor.h"
+#include <graphviz/gvc.h>
+#include <graphviz/cgraph.h>
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QPushButton>
@@ -9,23 +12,25 @@
 #include "windowrun.h"
 #include <qdebug.h>
 #include <QToolButton>
+#include <QtMath>
 #include <QMenu>
 #include <QMenuBar>
 #include <QDebug>
-#include "codeeditor.h"
 #include <QPushButton>
 #include <QProcessEnvironment>
 #include <QGraphicsView>
 #include <QGraphicsLineItem>
 #include <QXmlStreamReader>
 #include <QRect>
+#include <QtGlobal>
+#include <random>
 #include <stdio.h>
 #include <string.h>
-
 QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
+
 Q_OBJECT
 
 private slots:
@@ -35,7 +40,6 @@ private slots:
   void SaveAs();
   void runUtopia();
   void exportResults();
-
 
 public:
   MainWindow(QWidget *parent = nullptr);
@@ -57,5 +61,6 @@ private:
   void displayGraph(QMap<QString, QVector<QString>>&adjList);
   QGraphicsScene *scene;
   QMap<QString, QGraphicsEllipseItem*> nodes;
+
 };
 #endif // MAINWINDOW_H

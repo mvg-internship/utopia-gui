@@ -9,6 +9,7 @@
 #include <QString>
 #include <string.h>
 #include <qdebug.h>
+
 class windowRun: public QDialog {
 Q_OBJECT
 

@@ -6,6 +6,7 @@
 #include <qmenu.h>
 #include <qtextstream.h>
 #include <QDateTime>
+
 QT_BEGIN_NAMESPACE
 class QPaintEvent;
 class QResizeEvent;

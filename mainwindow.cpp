@@ -56,7 +56,7 @@ void MainWindow::openFile(const QString &path) {
     return;
 }
   else {
-    qDebug()<<"the file did not open";
+    qDebug() << "the file did not open";
   }
 
 }
@@ -67,8 +67,8 @@ void MainWindow::save() {
   if (fileName != "") {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
-      qDebug()<<"the file did not open"; 
-    }else {
+      qDebug() << "the file did not open";
+    } else {
       QTextStream stream(&file);
       stream << edit->toPlainText();
       stream.flush();
@@ -82,8 +82,8 @@ void MainWindow::SaveAs() {
   if (fileName != "") {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
-      qDebug()<<"the file did not open";
-    }else {
+      qDebug() << "the file did not open";
+    } else {
       QTextStream stream(&file);
       stream << edit->toPlainText();
       stream.flush();
@@ -130,61 +130,54 @@ void MainWindow::loadGraph(QString filename, QMap<QString, QVector<QString>> &ad
 }
 
 void MainWindow::displayGraph(QMap<QString, QVector<QString>> &adjList) {
-  int a = 0;
-  int b = 0;
-  int c = 1;
-  QGraphicsScene *scene = new QGraphicsScene();
-  QMap<QString, QGraphicsEllipseItem*> nodes;
+  GVC_t *gvc;
+  Agraph_t *g;
+  Agnode_t *n, *m;
+  Agedge_t *e;
 
-  for (QString key : adjList.keys()) {
-//      qDebug()<<"key"<<key;
-      QGraphicsEllipseItem *node = scene->addEllipse(a, b, 50, 50);
-      if((c % 2 == 0) && (c % 4 != 0 )){
-        a = a + 100;
-      }
-      else if (c % 3 ==0){
-        b = b - 100;
-      }
-      else if (c % 4 ==0 ){
-        a = a + 50;
-        b = b + 50;
-      }
-      else if (c % 5 ==0 ){
-        a = a + 50;
-        b = b - 50;
-      }
-      else {
-        b = b + 100;
-      }
-      if( c == 5 ){
-          c=0;
-      }
-      c = c + 1;
-      node->setBrush(Qt::green);
-      nodes[key] = node;
+  gvc = gvContext();
+
+  g = agopen("G", Agdirected, NULL);
+
+  QMap<QString, Agnode_t*> nodes;
+  for (const QString& key : adjList.keys()) {
+    n = agnode(g, NULL, TRUE);
+    agsafeset(n, const_cast<char*>("label"), const_cast<char*>(key.toUtf8().constData()), const_cast<char*>(""));
+    nodes[key] = n;
   }
 
-  for (QString key : adjList.keys()) {
-    for (QString neighbor: adjList[key]) {
-      QRectF rect1 = nodes[key]->rect();
-      QRectF rect2 = nodes[neighbor]->rect();
-      QPointF center1 = rect1.center();
-      QPointF center2 = rect2.center();
-      QLineF line(center1, center2);
-      QGraphicsLineItem *edge = scene->addLine(line);
-      edge->setPen(QPen(Qt::black, 2));
-      qDebug() << "key:" << key << "neighbor:" << neighbor << "node1:" << nodes[key]->rect() << "node2:" << nodes[neighbor]->rect();
+  for (const QString& key : adjList.keys()) {
+    for (const QString& neighbor : adjList[key]) {
+      n = nodes[key];
+      m = nodes[neighbor];
+      e = agedge(g, n, m, NULL, TRUE);
     }
   }
 
+  gvLayout(gvc, g, "dot");
+
+  char *renderData;
+  unsigned int renderDataLength;
+  gvRenderData(gvc, g, "png", &renderData, &renderDataLength);
+
+  QImage image;
+  image.loadFromData((uchar*)renderData, renderDataLength);
+
+  QGraphicsScene *scene = new QGraphicsScene();
+  QGraphicsPixmapItem *item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+  scene->addItem(item);
   QGraphicsView *view = new QGraphicsView(scene);
   view->setWindowTitle("Graph");
   view->show();
+
+  gvFreeRenderData(renderData);
+  gvFreeLayout(gvc, g);
+  agclose(g);
+  gvFreeContext(gvc);
 }
 void MainWindow::exportResults(){
   QMap<QString, QVector<QString>> adjList;
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("RIL Files (*.xml)"));
-
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("XML Files (*.xml)"));
   loadGraph(fileName, adjList);
   displayGraph(adjList);
 }
