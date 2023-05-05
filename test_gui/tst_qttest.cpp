@@ -2,7 +2,7 @@
 #include <QClipboard>
 #include <QtTest>
 #include <QProcess>
-#include "mainwindow.h"
+#include "../mainwindow.h"
 class QTest1 : public QObject
 {
   Q_OBJECT
