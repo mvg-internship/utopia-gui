@@ -31,7 +31,7 @@ windowRun::windowRun(QWidget* window ) {
   applyButton-> setGeometry(220, 100, 80, 30);
   connect(btnRunUtopia, &QPushButton::clicked, this, &windowRun::onBtnRunUtopiaClicked);
   QObject::connect(applyButton, &QPushButton::clicked, [=,this]() {
-  text = lineEdit-> text();
+    text = lineEdit-> text();
    });
 
 }
@@ -43,7 +43,7 @@ void windowRun::handleButton(const QString &path) {
   }
 }
 void windowRun::onBtnRunUtopiaClicked() {
-  QString command = shellVariable + text + a ;
+  QString command = shellVariable + " " + text + " " + a ;
   qDebug() << "text" << command;
   QProcess::startDetached(command);
 }

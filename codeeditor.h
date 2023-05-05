@@ -24,12 +24,12 @@ public:
   void contextMenuEvent(QContextMenuEvent *event );
   CodeEditor(QWidget *parent = nullptr);
   QMenu *contMenu;
-  QAction *paste;
-  QAction *copy;
-  QAction *cut;
+  QAction *actionPaste;
+  QAction *actionCopy;
+  QAction *actionCut;
   QAction *selectLine;
-  QAction *undo;
-  QAction *redo;
+  QAction *actionUndo;
+  QAction *actionRedo;
   QAction *selectW;
   QAction *del;
   QAction *selectA;
@@ -46,6 +46,8 @@ private slots:
 
 private:
   QWidget *lineNumberArea;
+  
+  friend class QTest1;
 };
 
 #endif // CODEEDITOR_H

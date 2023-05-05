@@ -34,7 +34,6 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 private slots:
-  void execSettings(const QString &path = QString());
   void openFile(const QString &path = QString());
   void save();
   void SaveAs();
@@ -61,6 +60,7 @@ private:
   void displayGraph(QMap<QString, QVector<QString>>&adjList);
   QGraphicsScene *scene;
   QMap<QString, QGraphicsEllipseItem*> nodes;
-
+  
+  friend class QTest1;
 };
 #endif // MAINWINDOW_H

@@ -12,27 +12,6 @@ MainWindow::~MainWindow(){
   delete menu;
 }
 
-void MainWindow::execSettings(const QString &path) {
-  QString fileName = pathFile;
-  if (fileName.isNull()) {
-    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("Text Files (*)"));
-  }
-  if (!fileName.isEmpty()) {
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-      return;
-
-    QTextStream in(&file);
-    while (!in.atEnd()) {
-      QString line = in.readLine();
-      pathFile += line;
-    }
-  }
-  else {
-      qDebug()<<"the file did not open";
-  }
-
-}
 void MainWindow::openFile(const QString &path) {
   QString fileName = pathFile;
   if (fileName.isNull()) {
@@ -178,6 +157,7 @@ void MainWindow::displayGraph(QMap<QString, QVector<QString>> &adjList) {
 void MainWindow::exportResults(){
   QMap<QString, QVector<QString>> adjList;
   QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("XML Files (*.xml)"));
+
   loadGraph(fileName, adjList);
   displayGraph(adjList);
 }

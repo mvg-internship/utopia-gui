@@ -43,7 +43,7 @@ target_link_libraries(project_pass PRIVATE
   PkgConfig::GVC
   PkgConfig::CGRAPH
 )
-
+add_subdirectory(test_gui)
 set_target_properties(project_pass PROPERTIES
   MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
   MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

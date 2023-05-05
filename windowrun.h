@@ -15,6 +15,11 @@ Q_OBJECT
 
 public:
   windowRun(QWidget *window = 0);
+
+private slots:
+  void handleButton(const QString &path = QString());
+  void onBtnRunUtopiaClicked();
+
 private:
   const QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
   const QString shellVariable = env.value("UTOPIA_HOME");
@@ -27,10 +32,11 @@ private:
   QString text;
   QString a;
   QPushButton *btnRunUtopia;
+  QPushButton *applyButton;
   QString str;
-private slots:
-  void handleButton(const QString &path = QString());
-  void onBtnRunUtopiaClicked();
+
+  friend class QTest1;
 };
+
 
 #endif // CHOOSE_H
