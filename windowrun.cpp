@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QProcessEnvironment>
 #include <QString>
+#include <filesystem>
 
 windowRun::windowRun(QWidget* window ) {
   setWindowTitle(tr("Run Utopia"));
@@ -37,13 +38,20 @@ windowRun::windowRun(QWidget* window ) {
 }
 void windowRun::handleButton(const QString &path) {
   QString filename = path;
+  std::filesystem::path filePath(shellVariable.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
   if (filename.isNull()) {
-    filename = QFileDialog::getOpenFileName(this, tr("Open File"),shellVariable+"test/data/ril/test.ril", tr("RIL Files (*.ril)"));
+    filename = QFileDialog::getOpenFileName(this, tr("Open File"),QString::fromStdString(fullPath.string()), tr("RIL Files (*.ril)"));
     a = filename;
+  }
+  else{
+    qDebug() << "No file selected: ";
+    throw std::runtime_error("No file selected.");
   }
 }
 void windowRun::onBtnRunUtopiaClicked() {
-  QString command = shellVariable + " " + text + " " + a ;
-  qDebug() << "text" << command;
-  QProcess::startDetached(command);
+  QString program = shellVariable;
+  QStringList arguments;
+  arguments << text << a;
+  qDebug() << QProcess::startDetached(program, arguments);
 }

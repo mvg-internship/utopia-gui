@@ -1,5 +1,6 @@
 ﻿#include "mainwindow.h"
 #include <QString>
+#include <filesystem>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
   setWindowTitle(tr("Utopia"));
@@ -15,8 +16,9 @@ MainWindow::~MainWindow(){
 void MainWindow::openFile(const QString &path) {
   QString fileName = pathFile;
   if (fileName.isNull()) {
-
-    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("RIL Files (*.ril)"));
+    std::filesystem::path filePath(shellVariable1.toStdString());
+    std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), tr("RIL Files (*.ril)"));
     pathOpenfile = fileName;
   }
   if (!fileName.isEmpty()) {
@@ -31,17 +33,21 @@ void MainWindow::openFile(const QString &path) {
 
       edit->setPlainText(file.readAll());
       file.close();
+      return;
     }
-    return;
-}
+    else {
+      qDebug() << "Failed to open file: ";
+      throw std::runtime_error("Failed to open file.");
+    }
+  }
   else {
-    qDebug() << "the file did not open";
+    qDebug() << "No file selected: ";
+    throw std::runtime_error("No file selected.");
   }
 
 }
 
 void MainWindow::save() {
-    
   QString fileName = pathOpenfile;
   if (fileName != "") {
     QFile file(fileName);
@@ -56,8 +62,9 @@ void MainWindow::save() {
   }
 }
 void MainWindow::SaveAs() {
-    
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save as"), shellVariable1+"test/data/ril/test.ril",tr("Text file (*.txt );; RIL file (*.ril )"));
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save as"), QString::fromStdString(fullPath.string()),tr("Text file (*.txt );; RIL file (*.ril )"));
   if (fileName != "") {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
@@ -79,7 +86,8 @@ void MainWindow::runUtopia() {
 void MainWindow::loadGraph(QString filename, QMap<QString, QVector<QString>> &adjList){
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-  qDebug() << "Failed to open file";
+  qDebug() << "Failed to open file: ";
+  throw std::runtime_error("Failed to open file.");
   return;
   }
 
@@ -116,7 +124,8 @@ void MainWindow::displayGraph(QMap<QString, QVector<QString>> &adjList) {
 
   gvc = gvContext();
 
-  g = agopen("G", Agdirected, NULL);
+  char graphName[] = "G";
+  g = agopen(graphName, Agdirected, nullptr);
 
   QMap<QString, Agnode_t*> nodes;
   for (const QString& key : adjList.keys()) {
@@ -156,10 +165,17 @@ void MainWindow::displayGraph(QMap<QString, QVector<QString>> &adjList) {
 }
 void MainWindow::exportResults(){
   QMap<QString, QVector<QString>> adjList;
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), shellVariable1+"test/data/ril/test.ril", tr("XML Files (*.xml)"));
-
-  loadGraph(fileName, adjList);
-  displayGraph(adjList);
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), tr("XML Files (*.xml)"));
+  if (!fileName.isEmpty()) {
+    loadGraph(fileName, adjList);
+    displayGraph(adjList);
+  }
+  else {
+    qDebug() << "No file selected: ";
+    throw std::runtime_error("No file selected.");
+  }
 }
 
 void MainWindow::setMenu(){
