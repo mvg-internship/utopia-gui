@@ -3,8 +3,8 @@
 #include <QtTest>
 #include <QProcess>
 #include "../mainwindow.h"
-class QTest1 : public QObject
-{
+#include <filesystem>
+class QTest1 : public QObject {
   Q_OBJECT
 public:
   QTest1(QApplication *app);
@@ -40,16 +40,15 @@ private:
   QPushButton *runButton_;
   QSignalSpy *openFileSpy_;
   QSignalSpy *saveAsSpy_;
-  void initTestCase()
-  {
+
+  void initTestCase(){
     editor_ = new CodeEditor(window_);
     runButton_ = window_->findChild<QPushButton*>("runButton");
     openFileSpy_ = new QSignalSpy(window_, SIGNAL(openFile(QString)));
     saveAsSpy_ = new QSignalSpy(window_, SIGNAL(saveAs()));
   }
 
-  void cleanupTestCase()
-  {
+  void cleanupTestCase(){
     delete editor_;
     delete openFileSpy_;
     delete saveAsSpy_;
@@ -57,45 +56,41 @@ private:
   }
 };
 
-QTest1::QTest1(QApplication *app) : app_(app), window_(new MainWindow)
-{
+QTest1::QTest1(QApplication *app) : app_(app), window_(new MainWindow) {
 }
 
-QTest1::~QTest1()
-{
+QTest1::~QTest1() {
 }
 
-void QTest1::testOpenFile()
-{
-  const QString testFileName = shellVariable1 + "test/data/ril/test.ril";
-  window_->openFile(testFileName);
-  QVERIFY(true); // тест пройден, если функция отработала без ошибок
+void QTest1::testOpenFile() {
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  window_->openFile(QString::fromStdString(fullPath.string()));
+  QVERIFY(true);
 }
 
-void QTest1::testSave()
-{
-  const QString testFileName = shellVariable1 + "test/data/ril/test.ril";
-  window_->openFile(testFileName);
+void QTest1::testSave() {
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  window_->openFile(QString::fromStdString(fullPath.string()));
   window_->save();
   QVERIFY(true);
 }
 
-void QTest1::testLoadGraph()
-{
+void QTest1::testLoadGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
   QVERIFY(true);
 }
 
-void QTest1::testDisplayGraph()
-{
+void QTest1::testDisplayGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
   window_->displayGraph(window_->adjList);
   QVERIFY(true);
 }
 
-void QTest1::testCopy() {
+void QTest1::testCopy() { 
   CodeEditor editor;
   editor.setPlainText("test");
   QTextCursor cursor = editor.textCursor();
@@ -120,8 +115,7 @@ void QTest1::testUndoRedo() {
   editor.redo();
   QVERIFY(editor.toPlainText() == "test");
 }
-void QTest1::testCut()
-{
+void QTest1::testCut() {
   CodeEditor editor;
   editor.setPlainText("test");
   editor.selectAll();
@@ -130,8 +124,7 @@ void QTest1::testCut()
   QVERIFY(editor.toPlainText().isEmpty());
 }
 
-void QTest1::testClear()
-{
+void QTest1::testClear() {
   CodeEditor editor;
   editor.setPlainText("test");
   editor.selectAll();
@@ -139,71 +132,61 @@ void QTest1::testClear()
   QVERIFY(editor.toPlainText().isEmpty());
 }
 
-void QTest1::testSelectAll()
-{
+void QTest1::testSelectAll() {
   CodeEditor editor;
   editor.setPlainText("test");
   editor.selectAll();
   QCOMPARE(editor.textCursor().selectedText(), QString("test"));
 }
 
-void QTest1::testCursorPosition()
-{
+void QTest1::testCursorPosition() {
   CodeEditor editor;
   editor.setPlainText("test");
   editor.moveCursor(QTextCursor::End);
   QCOMPARE(editor.textCursor().position(), 4);
 }
 
-void QTest1::testSetPlainText()
-{
+void QTest1::testSetPlainText() {
   CodeEditor editor;
   editor.setPlainText("test");
   QCOMPARE(editor.toPlainText(), QString("test"));
 }
 
-void QTest1::testFindText()
-{
+void QTest1::testFindText() {
   CodeEditor editor;
   editor.setPlainText("This is a test.");
   QTextCursor cursor = editor.document()->find("test");
   QVERIFY(cursor.position() == 14);
 }
-void QTest1::testSetWindowTitle()
-{
+void QTest1::testSetWindowTitle() {
   const QString windowTitle = "My Test Window Title";
   window_->setWindowTitle(windowTitle);
   QCOMPARE(window_->windowTitle(), windowTitle);
 }
 
-void QTest1::testOpenUtopia()
-{
+void QTest1::testOpenUtopia() {
   window_->runUtopia();
   QVERIFY(true);
 }
 
-void QTest1::testExportResults()
-{
+void QTest1::testExportResults() {
   const QString graphFileName = "./graphml-sample.xml";
   window_->loadGraph(graphFileName, window_->adjList);
   QVERIFY(true);
 }
 
-void QTest1::testOpenFileInUtopia()
-{
+void QTest1::testOpenFileInUtopia() {
   windowRun window;
   window.handleButton();
   QVERIFY(window.a != "");
 }
 
-void QTest1::testRunUtopia()
-{
+void QTest1::testRunUtopia() {
   windowRun window;
   window.onBtnRunUtopiaClicked();
   QVERIFY(true);
 }
-void QTest1::testApplyOptions()
-{
+void QTest1::testApplyOptions() {
   windowRun window;
   window.handleButton();
   QVERIFY(true);
