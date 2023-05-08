@@ -25,5 +25,6 @@ make
 
 ### Upload GraphViz
 
-sudo apt-get install graphviz
+sudo apt install graphviz
+
 sudo apt-get install graphviz-dev
