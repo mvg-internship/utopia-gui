@@ -165,15 +165,27 @@ void MainWindow::exportResults(){
   QMap<QString, QVector<QString>> adjList;
   std::filesystem::path filePath(shellVariable1.toStdString());
   std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), tr("XML Files (*.xml)"));
+
+  QStringList filters;
+  filters << "XML Files (*.xml)" << "Verilog Files (*.v)";
+  QString filterString = filters.join(";;");
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), filterString);//choose a file
+
   if (!fileName.isEmpty()) {
-    loadGraph(fileName, adjList);
-    displayGraph(adjList);
-  }
-  else {
-    qDebug() << "No file selected: ";
+    if (fileName.endsWith(".xml", Qt::CaseInsensitive)) {
+      loadGraph(fileName, adjList);
+      displayGraph(adjList);
+    } else if (fileName.endsWith(".v", Qt::CaseInsensitive)) {
+      cho = new windowRun(this);
+      cho->b = fileName;
+      cho->text = " ";//here will be the option which need to generate xml file
+      cho->onBtnRunUtopiaClicked();//run Utopia
+    }
+  } else {
+    qDebug() << "No file selected";
   }
 }
+
 
 void MainWindow::openFileinWindow(const QString &filePath) {
   if (!filePath.isEmpty()) {
