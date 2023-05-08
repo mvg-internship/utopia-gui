@@ -38,9 +38,10 @@ windowRun::windowRun(QWidget* window ) {
 }
 void windowRun::handleButton(const QString &path) {
   QString filename = path;
-  std::filesystem::path filePath(shellVariable.toStdString());
-  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  a = filename;
   if (filename.isNull()) {
+    std::filesystem::path filePath(shellVariable.toStdString());
+    std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
     filename = QFileDialog::getOpenFileName(this, tr("Open File"),QString::fromStdString(fullPath.string()), tr("RIL Files (*.ril)"));
     a = filename;
   }
