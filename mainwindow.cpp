@@ -1,5 +1,7 @@
 ﻿#include "mainwindow.h"
 #include <QString>
+#include <QEvent>
+#include <QEventLoop>
 #include <filesystem>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
@@ -14,7 +16,7 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::openFile(const QString &path) {
-  QString fileName = pathFile;
+  QString fileName = path;
   if (fileName.isNull()) {
     std::filesystem::path filePath(shellVariable1.toStdString());
     std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
@@ -78,7 +80,15 @@ void MainWindow::SaveAs() {
 void MainWindow::runUtopia() {
   cho = new windowRun(this);
   cho->show();
-  openFile(cho->a);
+  QEventLoop loop;
+  connect(cho, &windowRun::fileSelected, &loop, &QEventLoop::quit);
+  while (true) {
+    loop.exec();
+    if (!cho->a.isEmpty()) {
+      openFile(cho->a);
+      break;
+    }
+  }
 }
 
 

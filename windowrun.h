@@ -22,7 +22,8 @@ public:
 private slots:
   void handleButton(const QString &path = QString());
   void onBtnRunUtopiaClicked();
-
+signals:
+  void fileSelected(const QString &path);
 private:
   const QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
   const QString shellVariable = env.value("UTOPIA_HOME");
