@@ -32,7 +32,8 @@ private slots:
   void testOpenFileInUtopia();
   void testApplyOptions();
   void testOpenUtopia();
-
+  void testApplyTest();
+  void testOpenFileInWindow();
 private:
   const QProcessEnvironment env1 = QProcessEnvironment::systemEnvironment();
   const QString shellVariable1 = env1.value("UTOPIA_HOME");
@@ -88,14 +89,14 @@ void QTest1::testLoadGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); 
+  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
 }
 
 void QTest1::testDisplayGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); 
+  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
   window_->displayGraph(window_->adjList);
   QVERIFY(true);
 }
@@ -183,7 +184,7 @@ void QTest1::testExportResults() {
   const QString graphFileName = "./graphml-sample.xml";
   window_->loadGraph(graphFileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); 
+  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
   QVERIFY(true);
 }
 
@@ -198,11 +199,29 @@ void QTest1::testRunUtopia() {
   window.onBtnRunUtopiaClicked();
   QVERIFY(true);
 }
+
 void QTest1::testApplyOptions() {
   windowRun window;
   window.handleButton();
   QVERIFY(true);
 }
+
+void QTest1::testApplyTest() {
+  windowRun window;
+  window.handleButton();
+  window.handleApplyTestButton();
+  QVERIFY(window.b != "");
+}
+void QTest1::testOpenFileInWindow() {
+  window_->runUtopia();
+
+// Check that the edit widget was created
+  QVERIFY(window_->cho->edit != nullptr);
+
+// Check that a file was selected and opened in the edit widget
+  QVERIFY(window_->cho->b.isEmpty());
+}
+
 int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
