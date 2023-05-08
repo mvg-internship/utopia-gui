@@ -89,14 +89,14 @@ void QTest1::testLoadGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
+  QVERIFY(window_->adjList.contains("n1")); 
 }
 
 void QTest1::testDisplayGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
+  QVERIFY(window_->adjList.contains("n1")); 
   window_->displayGraph(window_->adjList);
   QVERIFY(true);
 }
@@ -184,7 +184,7 @@ void QTest1::testExportResults() {
   const QString graphFileName = "./graphml-sample.xml";
   window_->loadGraph(graphFileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
+  QVERIFY(window_->adjList.contains("n1")); 
   QVERIFY(true);
 }
 
