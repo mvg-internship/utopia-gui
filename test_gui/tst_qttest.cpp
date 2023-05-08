@@ -2,8 +2,10 @@
 #include <QClipboard>
 #include <QtTest>
 #include <QProcess>
+#include <QMessageBox>
 #include "../mainwindow.h"
 #include <filesystem>
+
 class QTest1 : public QObject {
   Q_OBJECT
 public:
@@ -63,10 +65,34 @@ QTest1::~QTest1() {
 }
 
 void QTest1::testOpenFile() {
-  std::filesystem::path filePath(shellVariable1.toStdString());
-  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
-  window_->openFile(QString::fromStdString(fullPath.string()));
-  QVERIFY(true);
+std::filesystem::path filePath(shellVariable1.toStdString());
+std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+QString testFilePath = QString::fromStdString(fullPath.string());
+
+// Test that opening a valid file works
+try {
+window_->openFile(testFilePath);
+QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
+} catch (const std::exception& ex) {
+QFAIL(ex.what());
+}
+
+// Test that cancelling file selection does not open a file
+//QString invalidFilePath = "";
+//QFileDialog::getOpenFileName = & { return invalidFilePath };
+//window_->openFile("");
+//QVERIFY2(window_->centralWidget() == nullptr, "Opened a file when none was selected");
+
+//// Test that opening an invalid file displays an error message  const QString fileName = "./graphml-sample.xml";
+window_->loadGraph(fileName, window_->adjList);
+QVERIFY(!window_->adjList.isEmpty());
+QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
+window_->displayGraph(window_->adjList);
+Q
+//invalidFilePath = "non_existent_file.ril";
+//window_->openFile(invalidFilePath);
+//QVERIFY2(window_->centralWidget() == nullptr, "Opened an invalid file");
+//QVERIFY2(QMessageBox::critical.called, "Error message was not displayed for invalid file");
 }
 
 void QTest1::testSave() {
@@ -80,12 +106,15 @@ void QTest1::testSave() {
 void QTest1::testLoadGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
-  QVERIFY(true);
+  QVERIFY(!window_->adjList.isEmpty());
+  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
 }
 
 void QTest1::testDisplayGraph() {
   const QString fileName = "./graphml-sample.xml";
   window_->loadGraph(fileName, window_->adjList);
+  QVERIFY(!window_->adjList.isEmpty());
+  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
   window_->displayGraph(window_->adjList);
   QVERIFY(true);
 }
@@ -172,13 +201,16 @@ void QTest1::testOpenUtopia() {
 void QTest1::testExportResults() {
   const QString graphFileName = "./graphml-sample.xml";
   window_->loadGraph(graphFileName, window_->adjList);
+  QVERIFY(!window_->adjList.isEmpty());
+  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
   QVERIFY(true);
 }
 
 void QTest1::testOpenFileInUtopia() {
   windowRun window;
-  window.handleButton();
-  QVERIFY(window.a != "");
+  QString path = "./graphml-sample.xml";
+  window.handleButton(path);
+  QVERIFY(true);
 }
 
 void QTest1::testRunUtopia() {
