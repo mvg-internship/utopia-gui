@@ -54,5 +54,6 @@ void windowRun::onBtnRunUtopiaClicked() {
   QString program = shellVariable;
   QStringList arguments;
   arguments << text << a;
-//  qDebug() << QProcess::startDetached(program, arguments);
+  QProcess::startDetached(program, arguments);
+  qDebug() << QString("Starting process: %1 %2").arg(program).arg(arguments.join(" "));
 }
