@@ -37,12 +37,10 @@ void MainWindow::openFile(const QString &path) {
     }
     else {
       qDebug() << "Failed to open file: ";
-      throw std::runtime_error("Failed to open file.");
     }
   }
   else {
     qDebug() << "No file selected: ";
-    throw std::runtime_error("No file selected.");
   }
 
 }
@@ -80,6 +78,7 @@ void MainWindow::SaveAs() {
 void MainWindow::runUtopia() {
   cho = new windowRun(this);
   cho->show();
+  openFile(cho->a);
 }
 
 
@@ -87,7 +86,6 @@ void MainWindow::loadGraph(QString filename, QMap<QString, QVector<QString>> &ad
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
   qDebug() << "Failed to open file: ";
-  throw std::runtime_error("Failed to open file.");
   return;
   }
 
@@ -174,7 +172,6 @@ void MainWindow::exportResults(){
   }
   else {
     qDebug() << "No file selected: ";
-    throw std::runtime_error("No file selected.");
   }
 }
 
