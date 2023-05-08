@@ -35,6 +35,7 @@ Q_OBJECT
 
 private slots:
   void openFile(const QString &path = QString());
+  void openFileinWindow(const QString &path = QString());
   void save();
   void SaveAs();
   void runUtopia();

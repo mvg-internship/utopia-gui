@@ -1,7 +1,5 @@
 ﻿#include "mainwindow.h"
 #include <QString>
-#include <QEvent>
-#include <QEventLoop>
 #include <filesystem>
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
@@ -80,15 +78,7 @@ void MainWindow::SaveAs() {
 void MainWindow::runUtopia() {
   cho = new windowRun(this);
   cho->show();
-  QEventLoop loop;
-  connect(cho, &windowRun::fileSelected, &loop, &QEventLoop::quit);
-  while (true) {
-    loop.exec();
-    if (!cho->a.isEmpty()) {
-      openFile(cho->a);
-      break;
-    }
-  }
+  connect(cho, &windowRun::fileSelected, this, &MainWindow::openFileinWindow);
 }
 
 
@@ -182,6 +172,12 @@ void MainWindow::exportResults(){
   }
   else {
     qDebug() << "No file selected: ";
+  }
+}
+
+void MainWindow::openFileinWindow(const QString &filePath) {
+  if (!filePath.isEmpty()) {
+    openFile(filePath);
   }
 }
 
