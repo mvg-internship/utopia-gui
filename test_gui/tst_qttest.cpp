@@ -65,34 +65,22 @@ QTest1::~QTest1() {
 }
 
 void QTest1::testOpenFile() {
-std::filesystem::path filePath(shellVariable1.toStdString());
-std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
-QString testFilePath = QString::fromStdString(fullPath.string());
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  QString testFilePath = QString::fromStdString(fullPath.string());
 
 // Test that opening a valid file works
-try {
-window_->openFile(testFilePath);
-QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
+  try {
+   window_->openFile(testFilePath);
+   QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
 } catch (const std::exception& ex) {
-QFAIL(ex.what());
+  QFAIL(ex.what());
 }
-
-// Test that cancelling file selection does not open a file
-//QString invalidFilePath = "";
-//QFileDialog::getOpenFileName = & { return invalidFilePath };
-//window_->openFile("");
-//QVERIFY2(window_->centralWidget() == nullptr, "Opened a file when none was selected");
-
-//// Test that opening an invalid file displays an error message  const QString fileName = "./graphml-sample.xml";
-window_->loadGraph(fileName, window_->adjList);
-QVERIFY(!window_->adjList.isEmpty());
-QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
-window_->displayGraph(window_->adjList);
-Q
-//invalidFilePath = "non_existent_file.ril";
-//window_->openFile(invalidFilePath);
-//QVERIFY2(window_->centralWidget() == nullptr, "Opened an invalid file");
-//QVERIFY2(QMessageBox::critical.called, "Error message was not displayed for invalid file");
+// Test that opening an invalid file displays an error message  const QString fileName = "./graphml-sample.xml";
+  window_->loadGraph(fileName, window_->adjList);
+  QVERIFY(!window_->adjList.isEmpty());
+  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
+  window_->displayGraph(window_->adjList);
 }
 
 void QTest1::testSave() {
