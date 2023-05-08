@@ -43,6 +43,7 @@ void windowRun::handleButton(const QString &path) {
     std::filesystem::path filePath(shellVariable.toStdString());
     std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
     filename = QFileDialog::getOpenFileName(this, tr("Open File"),QString::fromStdString(fullPath.string()), tr("RIL Files (*.ril)"));
+    emit fileSelected(filename);
     a = filename;
   }
   else{
