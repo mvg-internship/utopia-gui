@@ -20,9 +20,11 @@ public:
   windowRun(QWidget *window = 0);
   QString a;
   QString b;
+  QString text;
+public slots:
+  void onBtnRunUtopiaClicked();
 private slots:
   void handleButton(const QString &path = QString());
-  void onBtnRunUtopiaClicked();
   void handleApplyTestButton();
 signals:
   void fileSelected(const QString &path);
@@ -36,7 +38,6 @@ private:
   QPushButton *buttonf;
   QString filename;
   QLineEdit*pleText;
-  QString text;
   QPushButton *btnRunUtopia;
   QPushButton *applyButton;
   QPushButton *applyTestFile;
