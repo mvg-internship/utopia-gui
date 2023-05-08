@@ -46,12 +46,11 @@ void windowRun::handleButton(const QString &path) {
   }
   else{
     qDebug() << "No file selected: ";
-    throw std::runtime_error("No file selected.");
   }
 }
 void windowRun::onBtnRunUtopiaClicked() {
   QString program = shellVariable;
   QStringList arguments;
   arguments << text << a;
-  qDebug() << QProcess::startDetached(program, arguments);
+//  qDebug() << QProcess::startDetached(program, arguments);
 }
