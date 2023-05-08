@@ -21,6 +21,9 @@ windowRun::windowRun(QWidget* window ) {
   buttonf = new QPushButton("test",this);
   buttonf-> setGeometry(QRect(QPoint(50, 35), QSize(50, 30)));
   connect(buttonf, SIGNAL (released()), this, SLOT(handleButton()));
+  applyTestFile = new QPushButton("Apply",this);
+  applyTestFile->setGeometry(QRect(QPoint(110, 35), QSize(50, 30)));
+  connect(applyTestFile, SIGNAL (released()), this, SLOT(handleApplyTestButton()));
 
   QLineEdit *lineEdit = new QLineEdit(this);
   lineEdit-> setGeometry(50, 100, 200, 30);
@@ -50,10 +53,14 @@ void windowRun::handleButton(const QString &path) {
     qDebug() << "No file selected: ";
   }
 }
+void windowRun::handleApplyTestButton(){
+  b = a;
+}
 void windowRun::onBtnRunUtopiaClicked() {
   QString program = shellVariable;
   QStringList arguments;
-  arguments << text << a;
+  arguments << text << b;
   QProcess::startDetached(program, arguments);
   qDebug() << QString("Starting process: %1 %2").arg(program).arg(arguments.join(" "));
 }
+

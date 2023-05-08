@@ -19,9 +19,11 @@ Q_OBJECT
 public:
   windowRun(QWidget *window = 0);
   QString a;
+  QString b;
 private slots:
   void handleButton(const QString &path = QString());
   void onBtnRunUtopiaClicked();
+  void handleApplyTestButton();
 signals:
   void fileSelected(const QString &path);
 private:
@@ -37,6 +39,7 @@ private:
   QString text;
   QPushButton *btnRunUtopia;
   QPushButton *applyButton;
+  QPushButton *applyTestFile;
   QString str;
   CodeEditor *edit;
 
