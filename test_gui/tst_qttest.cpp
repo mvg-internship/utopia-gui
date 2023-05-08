@@ -189,8 +189,7 @@ void QTest1::testExportResults() {
 
 void QTest1::testOpenFileInUtopia() {
   windowRun window;
-  QString path = "./graphml-sample.xml";
-  window.handleButton(path);
+  window.handleButton();
   QVERIFY(window.a != "");
 }
 
