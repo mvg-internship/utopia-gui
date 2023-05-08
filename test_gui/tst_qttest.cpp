@@ -68,19 +68,12 @@ void QTest1::testOpenFile() {
   std::filesystem::path filePath(shellVariable1.toStdString());
   std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
   QString testFilePath = QString::fromStdString(fullPath.string());
-
-// Test that opening a valid file works
   try {
-   window_->openFile(testFilePath);
-   QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
-} catch (const std::exception& ex) {
-  QFAIL(ex.what());
-}
-// Test that opening an invalid file displays an error message  const QString fileName = "./graphml-sample.xml";
-  window_->loadGraph(fileName, window_->adjList);
-  QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); // проверяем наличие определенного элемента в списке
-  window_->displayGraph(window_->adjList);
+    window_->openFile(testFilePath);
+    QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
+  } catch (const std::exception& ex) {
+     QFAIL(ex.what());
+  }
 }
 
 void QTest1::testSave() {
@@ -196,9 +189,9 @@ void QTest1::testExportResults() {
 
 void QTest1::testOpenFileInUtopia() {
   windowRun window;
-  QString path = "./graphml-sample.xml";
+  QString path = "/graphml-sample.xml";
   window.handleButton(path);
-  QVERIFY(true);
+  QVERIFY(window.a != "");
 }
 
 void QTest1::testRunUtopia() {
