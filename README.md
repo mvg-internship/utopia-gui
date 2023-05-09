@@ -49,15 +49,22 @@ sudo apt install graphviz
 sudo apt-get install graphviz-dev
   
 ### Before running you also need to set two environment variables
-1)sudo nano ~/.bashrc
-2)export Basicviz=/путь/к/установленной/папке/Basicviz-main/build/src/main
-  export UTOPIA_HOME=
-3)Ctr+0
-4)Enter
-5)Ctr+x
-### Compiling from Command Line
-cmake .
 
-make 
+  1)sudo nano ~/.bashrc
+
+  2)export Basicviz=/путь/к/установленной/папке/Basicviz-main/build/src/main
+  export UTOPIA_HOME=
+
+  3)Ctr+0
+
+  4)Enter
+
+  5)Ctr+x
+### Compiling from Command Line
+
+  cmake .
+
+
+  make 
 
 
