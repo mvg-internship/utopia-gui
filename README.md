@@ -60,6 +60,9 @@ sudo apt-get install graphviz-dev
   4)Enter
 
   5)Ctr+x
+  
+  6)source ~/.bashrc
+  
 ### Compiling from Command Line
 
   cmake .
