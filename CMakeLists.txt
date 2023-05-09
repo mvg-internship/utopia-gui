@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
   codeeditor.h
   windowrun.h
   windowrun.cpp
+  windowbench.h
+  windowbench.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

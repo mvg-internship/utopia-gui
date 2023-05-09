@@ -30,7 +30,7 @@ signals:
   void fileSelected(const QString &path);
 private:
   const QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-  const QString shellVariable = env.value("UTOPIA_HOME");
+  const QString shellVariable = env.value("Graphiz");
   QString path;
   QFont font;
   QLabel *testFile;
