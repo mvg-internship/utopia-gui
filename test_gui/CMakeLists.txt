@@ -15,12 +15,14 @@ tst_qttest.cpp
 ../codeeditor.cpp
 ../mainwindow.cpp
 ../windowrun.cpp
+../windowbench.cpp
 )
 
 set(HEADERS
 ../codeeditor.h
 ../mainwindow.h
 ../windowrun.h
+../windowbench.h
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
