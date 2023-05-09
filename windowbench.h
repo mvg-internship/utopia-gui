@@ -24,7 +24,7 @@ public slots:
     void runBench();
 private:
     const QProcessEnvironment env2 = QProcessEnvironment::systemEnvironment();
-    const QString shellVariable2 = env2.value("Graphviz");
+    const QString shellVariable2 = env2.value("Basicviz");
     QString path;
     QFont font;
     QLabel *option;
