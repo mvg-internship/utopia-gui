@@ -1,7 +1,7 @@
 # utopia-gui
 GUI for the Utopia EDA
 
-###Install
+### Install QT
 
 to install the application, you need to install Qt below installation instructions : 
 1) Update the package index by running the following command
@@ -17,14 +17,37 @@ Or using vpn you can download it from the official site:
 4) Select the version of Qt that you want to download by clicking on the appropriate button.
 5) On the following page, select your platform (e.g. "Linux"), your architecture (e.g. "64-bit"), and your distribution (e.g. "Ubuntu").
 6) Click on the "Download" button to begin downloading the Qt installer. 
-
-### Compiling from Command Line
-cmake .
-
-make 
-
+### Downloading libraries and Basicviz
+1) https://github.com/libsdl-org/SDL/releases/tag/release-2.26.5
+  cmake . (the correct command will appear)
+  mkdir build
+  cd build
+  correct command
+  make
+2) https://github.com/libsdl-org/SDL_ttf/releases
+  ./configure && make && sudo make install
+  sudo apt-get install libsdl2-ttf-dev
+3) https://github.com/yaksase/basicviz
+   cmake -S . -B build -DCMAKE_PREFIX_PATH=<sdl2ttf-dir> # 2 библиотека
+   mkdir build
+   cd build
+   make
 ### Upload GraphViz
 
 sudo apt install graphviz
 
 sudo apt-get install graphviz-dev
+  
+### Before running you also need to set two environment variables
+1)sudo nano ~/.bashrc
+2)export Basicviz=/путь/к/установленной/папке/Basicviz-main/build/src/main
+  export UTOPIA_HOME=
+3)Ctr+0
+4)Enter
+5)Ctr+x
+### Compiling from Command Line
+cmake .
+
+make 
+
+
