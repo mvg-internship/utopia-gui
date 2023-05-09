@@ -167,7 +167,7 @@ void MainWindow::exportResults(){
   std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
 
   QStringList filters;
-  filters << "XML Files (*.xml)" << "Verilog Files (*.v)";
+  filters << "XML Files (*.xml)" << "Verilog Files (*.v)" << "Bench Files (*bench)";
   QString filterString = filters.join(";;");
   QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), filterString);//choose a file
 
@@ -180,6 +180,10 @@ void MainWindow::exportResults(){
       cho->b = fileName;
       cho->text = " ";//here will be the option which need to generate xml file
       cho->onBtnRunUtopiaClicked();//run Utopia
+    } else if (fileName.endsWith(".bench", Qt::CaseInsensitive)) {
+      bench = new windowBench(this);
+      bench->filename = fileName;
+      bench->show();
     }
   } else {
     qDebug() << "No file selected";

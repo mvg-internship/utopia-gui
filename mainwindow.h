@@ -26,6 +26,8 @@
 #include <random>
 #include <stdio.h>
 #include <string.h>
+#include "windowbench.h"
+
 QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
 
@@ -54,6 +56,7 @@ private:
   QFont font;
   CodeEditor *edit;
   windowRun *cho;
+  windowBench *bench;
   const QProcessEnvironment env1 = QProcessEnvironment::systemEnvironment();
   const QString shellVariable1 = env1.value("UTOPIA_HOME");
   void loadGraph(QString filename, QMap<QString, QVector<QString>> &adjList);
