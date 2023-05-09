@@ -19,18 +19,28 @@ Or using vpn you can download it from the official site:
 6) Click on the "Download" button to begin downloading the Qt installer. 
 ### Downloading libraries and Basicviz
 1) https://github.com/libsdl-org/SDL/releases/tag/release-2.26.5
-  cmake . (the correct command will appear)
+  cmake . #(the correct command will appear)
+  
   mkdir build
+  
   cd build
+  
   correct command
+  
   make
+  
 2) https://github.com/libsdl-org/SDL_ttf/releases
   ./configure && make && sudo make install
+  
   sudo apt-get install libsdl2-ttf-dev
+  
 3) https://github.com/yaksase/basicviz
    cmake -S . -B build -DCMAKE_PREFIX_PATH=<sdl2ttf-dir> # 2 библиотека
+  
    mkdir build
+  
    cd build
+  
    make
 ### Upload GraphViz
 
