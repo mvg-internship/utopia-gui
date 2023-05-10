@@ -14,27 +14,27 @@
 
 
 class windowBench: public QDialog {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    windowBench(QWidget *window = 0);
-    QString text;
-    QString filename;
+  windowBench(QWidget *window = 0);
+  QString text;
+  QString filename;
 public slots:
-    void runBench();
+  void runBench();
 private:
-    const QProcessEnvironment env2 = QProcessEnvironment::systemEnvironment();
-    const QString shellVariable2 = env2.value("Basicviz");
-    QString path;
-    QFont font;
-    QLabel *option;
-    QLineEdit*pleText;
-    QPushButton *btnRunUtopia;
-    QPushButton *applyButton;
-    QString str;
-    CodeEditor *edit;
+  const QProcessEnvironment env2 = QProcessEnvironment::systemEnvironment();
+  const QString shellVariable2 = env2.value("Basicviz");
+  QString path;
+  QFont font;
+  QLabel *option;
+  QLineEdit*pleText;
+  QPushButton *btnRunUtopia;
+  QPushButton *applyButton;
+  QString str;
+  CodeEditor *edit;
 
-    friend class QTest1;
+  friend class QTest1;
 };
 
 

@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
-#include<QMainWindow>
+#include <QMainWindow>
 #include <QProcessEnvironment>
 #include <QString>
 #include <qdebug.h>

@@ -1,4 +1,4 @@
-#include "windowbench.h"
+#include <filesystem>
 #include <QApplication>
 #include <QWidget>
 #include <QLabel>
@@ -6,7 +6,7 @@
 #include <QVBoxLayout>
 #include <QProcessEnvironment>
 #include <QString>
-#include <filesystem>
+#include "windowbench.h"
 
 windowBench::windowBench(QWidget* window ) {
   setWindowTitle(tr("Run Basicviz"));
@@ -25,8 +25,8 @@ windowBench::windowBench(QWidget* window ) {
   applyButton-> setGeometry(220, 100, 80, 30);
   connect(btnRunUtopia, &QPushButton::clicked, this, &windowBench::runBench);
 
-  QObject::connect(applyButton, &QPushButton::clicked, [=,this]() {
-      text = lineEdit-> text();
+  QObject::connect(applyButton, &QPushButton::clicked, [=]() {
+    text = lineEdit-> text();
     });
 
 }

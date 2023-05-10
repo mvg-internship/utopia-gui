@@ -76,9 +76,9 @@ void MainWindow::SaveAs() {
     }
 }
 void MainWindow::runUtopia() {
-  cho = new windowRun(this);
-  cho->show();
-  connect(cho, &windowRun::fileSelected, this, &MainWindow::openFileinWindow);
+  utopiaRun = new windowRun(this);
+  utopiaRun->show();
+  connect(utopiaRun, &windowRun::fileSelected, this, &MainWindow::openFileinWindow);
 }
 
 
@@ -176,10 +176,10 @@ void MainWindow::exportResults(){
       loadGraph(fileName, adjList);
       displayGraph(adjList);
     } else if (fileName.endsWith(".v", Qt::CaseInsensitive)) {
-      cho = new windowRun(this);
-      cho->b = fileName;
-      cho->text = " ";//here will be the option which need to generate xml file
-      cho->onBtnRunUtopiaClicked();//run Utopia
+      utopiaRun = new windowRun(this);
+      utopiaRun->b = fileName;
+      utopiaRun->text = " ";//here will be the option which need to generate xml file
+      utopiaRun->onBtnRunUtopiaClicked();//run Utopia
     } else if (fileName.endsWith(".bench", Qt::CaseInsensitive)) {
       bench = new windowBench(this);
       bench->filename = fileName;

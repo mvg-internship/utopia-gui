@@ -55,7 +55,7 @@ private:
   QMenu *menu;
   QFont font;
   CodeEditor *edit;
-  windowRun *cho;
+  windowRun *utopiaRun;
   windowBench *bench;
   const QProcessEnvironment env1 = QProcessEnvironment::systemEnvironment();
   const QString shellVariable1 = env1.value("UTOPIA_HOME");
