@@ -34,7 +34,7 @@ windowRun::windowRun(QWidget* window ) {
   QPushButton *applyButton = new QPushButton("Apply", this);
   applyButton-> setGeometry(220, 100, 80, 30);
   connect(btnRunUtopia, &QPushButton::clicked, this, &windowRun::onBtnRunUtopiaClicked);
-  QObject::connect(applyButton, &QPushButton::clicked, [=,this]() {
+  QObject::connect(applyButton, &QPushButton::clicked, [=]() {
     text = lineEdit-> text();
    });
 
