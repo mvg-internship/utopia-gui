@@ -44,14 +44,14 @@ private:
   QSignalSpy *openFileSpy_;
   QSignalSpy *saveAsSpy_;
 
-  void initTestCase(){
+  void initTestCase() {
     editor_ = new CodeEditor(window_);
     runButton_ = window_->findChild<QPushButton*>("runButton");
     openFileSpy_ = new QSignalSpy(window_, SIGNAL(openFile(QString)));
     saveAsSpy_ = new QSignalSpy(window_, SIGNAL(saveAs()));
   }
 
-  void cleanupTestCase(){
+  void cleanupTestCase() {
     delete editor_;
     delete openFileSpy_;
     delete saveAsSpy_;
@@ -73,7 +73,7 @@ void QTest1::testOpenFile() {
     window_->openFile(testFilePath);
     QVERIFY2(window_->centralWidget() == nullptr, "Failed to open file");
   } catch (const std::exception& ex) {
-     QFAIL(ex.what());
+    QFAIL(ex.what());
   }
 }
 
@@ -217,10 +217,10 @@ void QTest1::testOpenFileInWindow() {
   window_->runUtopia();
 
 // Check that the edit widget was created
-  QVERIFY(window_->cho->edit != nullptr);
+  QVERIFY(window_->utopiaRun->edit != nullptr);
 
 // Check that a file was selected and opened in the edit widget
-  QVERIFY(window_->cho->b.isEmpty());
+  QVERIFY(window_->utopiaRun->b.isEmpty());
 }
 
 int main(int argc, char *argv[])
