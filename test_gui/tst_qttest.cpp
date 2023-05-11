@@ -71,7 +71,7 @@ void QTest1::testOpenFile() {
   QString testFilePath = QString::fromStdString(fullPath.string());
   try {
     window_->openFile(testFilePath);
-    QVERIFY2(window_->centralWidget() == nullptr, "Failed to open file");
+    QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
   } catch (const std::exception& ex) {
     QFAIL(ex.what());
   }
@@ -81,7 +81,7 @@ void QTest1::testSave() {
   std::filesystem::path filePath(shellVariable1.toStdString());
   std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
   window_->openFile(QString::fromStdString(fullPath.string()));
-  QVERIFY2(window_->centralWidget() == nullptr, "Failed to open file");
+  QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
   window_->save();
   QVERIFY(true);
 }
