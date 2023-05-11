@@ -35,25 +35,20 @@ Or using vpn you can download it from the official site:
   sudo apt-get install libsdl2-ttf-dev
   
 3) https://github.com/yaksase/basicviz
-   cmake -S . -B build -DCMAKE_PREFIX_PATH=<sdl2ttf-dir> # 2 библиотека
-  
-   mkdir build
-  
-   cd build
-  
-   make
+  cmake -S . -B build # -G Ninja, etc.
+  cd build
+  make                # ninja, etc.
+
 ### Upload GraphViz
 
-sudo apt install graphviz
+sudo apt install graphviz graphviz-dev
 
-sudo apt-get install graphviz-dev
-  
 ### Before running you also need to set two environment variables
 
   1)sudo nano ~/.bashrc
 
-  2)export Basicviz=/путь/к/установленной/папке/Basicviz-main/build/src/main
-  export UTOPIA_HOME=
+  2)export Basicviz=/path/to/Basicviz-main/build/src/main
+  export UTOPIA_HOME=/path/to/Utopia-Eda
 
   3)Ctr+0
 
