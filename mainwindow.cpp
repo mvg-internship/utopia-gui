@@ -19,7 +19,6 @@ void MainWindow::openFile(const QString &path) {
     std::filesystem::path filePath(shellVariable1.toStdString());
     std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
     fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), tr("RIL Files (*.ril)"));
-    pathOpenfile = fileName;
   }
   if (!fileName.isEmpty()) {
 
@@ -29,6 +28,7 @@ void MainWindow::openFile(const QString &path) {
     edit->setFont(font);
     edit->show();
     QFile file(fileName);
+    pathOpenfile = fileName;
     if (file.exists() && file.open(QFile::ReadOnly | QFile::Text)) {
 
       edit->setPlainText(file.readAll());
