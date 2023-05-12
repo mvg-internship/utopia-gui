@@ -66,43 +66,37 @@ QTest1::~QTest1() {
 }
 
 void QTest1::testOpenFile() {
+  MainWindow window;
   std::filesystem::path filePath(shellVariable1.toStdString());
   std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
   QString testFilePath = QString::fromStdString(fullPath.string());
-  try {
-    window_->openFile(testFilePath);
-    QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
-  } catch (const std::exception& ex) {
-    QFAIL(ex.what());
-  }
+  window.openFile(testFilePath);
+  QVERIFY(window.edit->toPlainText() != "");
 }
 
 void QTest1::testSave() {
+  MainWindow window;
   std::filesystem::path filePath(shellVariable1.toStdString());
   std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
-  window_->openFile(QString::fromStdString(fullPath.string()));
-  QVERIFY2(window_->centralWidget() != nullptr, "Failed to open file");
-  window_->save();
+  QString testFilePath = QString::fromStdString(fullPath.string());
+  window.openFile(testFilePath);
+  QVERIFY(window.edit->toPlainText() != "");
+  window.save();
   QVERIFY(true);
 }
 
 void QTest1::testLoadGraph() {
-  std::filesystem::path filePath(shellVariable1.toStdString());
-  filePath /= "../utopia-gui/test_gui/graphml-sample.xml";
-
-  window_->loadGraph(QString::fromStdString(filePath.string()), window_->adjList);
-
+  const QString fileName = "graphml-sample.xml";
+  window_->loadGraph(fileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); 
+  QVERIFY(window_->adjList.contains("n1"));
 }
 
 void QTest1::testDisplayGraph() {
-  std::filesystem::path filePath(shellVariable1.toStdString());
-  filePath /= "../utopia-gui/test_gui/graphml-sample.xml";
-
-  window_->loadGraph(QString::fromStdString(filePath.string()), window_->adjList);
+  const QString fileName = "graphml-sample.xml";
+  window_->loadGraph(fileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); 
+  QVERIFY(window_->adjList.contains("n1"));
   window_->displayGraph(window_->adjList);
   QVERIFY(true);
 }
@@ -187,17 +181,20 @@ void QTest1::testOpenUtopia() {
 }
 
 void QTest1::testExportResults() {
-  std::filesystem::path filePath(shellVariable1.toStdString());
-  filePath /= "../utopia-gui/test_gui/graphml-sample.xml";
-  window_->loadGraph(QString::fromStdString(filePath.string()), window_->adjList);
+  const QString fileName = "graphml-sample.xml";
+  window_->loadGraph(fileName, window_->adjList);
   QVERIFY(!window_->adjList.isEmpty());
-  QVERIFY(window_->adjList.contains("n1")); 
+  QVERIFY(window_->adjList.contains("n1"));
+  window_->displayGraph(window_->adjList);
   QVERIFY(true);
 }
 
 void QTest1::testOpenFileInUtopia() {
   windowRun window;
-  window.handleButton();
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  QString testFilePath = QString::fromStdString(fullPath.string());
+  window.handleButton(testFilePath);
   QVERIFY(window.a != "");
 }
 
@@ -209,24 +206,26 @@ void QTest1::testRunUtopia() {
 
 void QTest1::testApplyOptions() {
   windowRun window;
-  window.handleButton();
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  QString testFilePath = QString::fromStdString(fullPath.string());
+  window.handleButton(testFilePath);
   QVERIFY(true);
 }
 
 void QTest1::testApplyTest() {
   windowRun window;
-  window.handleButton();
+  std::filesystem::path filePath(shellVariable1.toStdString());
+  std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
+  QString testFilePath = QString::fromStdString(fullPath.string());
+  window.handleButton(testFilePath);
   window.handleApplyTestButton();
   QVERIFY(window.b != "");
 }
 void QTest1::testOpenFileInWindow() {
   window_->runUtopia();
-
-// Check that the edit widget was created
-  QVERIFY(window_->utopiaRun->edit != nullptr);
-
-// Check that a file was selected and opened in the edit widget
-  QVERIFY(window_->utopiaRun->b.isEmpty());
+  QVERIFY(window_->utopiaRun != nullptr);
+  QVERIFY(window_->utopiaRun->isVisible());
 }
 
 int main(int argc, char *argv[])
