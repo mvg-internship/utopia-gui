@@ -50,6 +50,7 @@ sudo apt install graphviz graphviz-dev
   1)sudo nano ~/.bashrc
 
   2)export Basicviz=/path/to/Basicviz-main/build/src/main
+  
   export UTOPIA_HOME=/path/to/Utopia-Eda
 
   3)Ctr+O
