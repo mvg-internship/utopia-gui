@@ -68,4 +68,8 @@ sudo apt install graphviz graphviz-dev
 
   make 
 
+## test
 
+cd test_gui
+
+./test_gui
