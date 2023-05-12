@@ -19,6 +19,7 @@ Or using vpn you can download it from the official site:
 6) Click on the "Download" button to begin downloading the Qt installer. 
 ### Downloading libraries and Basicviz
 1) https://github.com/libsdl-org/SDL/releases/tag/release-2.26.5
+
   cmake . #(the correct command will appear)
   
   mkdir build
@@ -30,6 +31,7 @@ Or using vpn you can download it from the official site:
   make
   
 2) https://github.com/libsdl-org/SDL_ttf/releases
+
   ./configure && make && sudo make install
   
   sudo apt-get install libsdl2-ttf-dev
