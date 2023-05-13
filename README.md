@@ -52,6 +52,8 @@ sudo apt install graphviz graphviz-dev
   2)export Basicviz=/path/to/Basicviz-main/build/src/main
   
   export UTOPIA_HOME=/path/to/Utopia-Eda
+  
+  export FpgaViz=path/to/vtr-fpga-arch/build/libs/libarchfpga/fpgaviz
 
   3)Ctr+O
 
