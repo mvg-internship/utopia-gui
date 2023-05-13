@@ -174,7 +174,7 @@ void MainWindow::exportResults() {
   if (!fileName.isEmpty()) {
     if (fileName.endsWith(".xml", Qt::CaseInsensitive)) {
       QStringList libraryFilters;
-      libraryFilters << "GraphViz" << "BasicViz";
+      libraryFilters << "GraphViz" << "BasicViz" <<"FpgaViz";
       QString selectedLibraryFilter = QInputDialog::getItem(this, tr("Select Library"), tr("Select a library:"), libraryFilters);
 
       if (!selectedLibraryFilter.isEmpty()) {
@@ -182,6 +182,17 @@ void MainWindow::exportResults() {
           loadGraph(fileName, adjList);
           displayGraph(adjList);
         } else if (selectedLibraryFilter == libraryFilters[1]) {
+          bench = new windowBench(this);
+          bench->filename = fileName;
+          bench->show();
+        } else if (selectedLibraryFilter == libraryFilters[2]) {
+          const QProcessEnvironment env3 = QProcessEnvironment::systemEnvironment();
+          const QString shellVariable3 = env3.value("FpgaViz");
+          QString program = shellVariable3;
+          QStringList arguments;
+          arguments << fileName;
+          QProcess::startDetached(program, arguments);
+          qDebug() << QString("Starting process: %1 %2").arg(program).arg(arguments.join(" "));
           bench = new windowBench(this);
           bench->filename = fileName;
           bench->show();
