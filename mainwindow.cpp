@@ -190,11 +190,12 @@ void MainWindow::exportResults() {
           const QString shellVariable3 = env3.value("FpgaViz");
           QString program = shellVariable3;
           QStringList arguments;
-          arguments << fileName;
+          QString fileNameRes = fileName + "_FLG";
+          arguments << fileName << fileNameRes ;
           QProcess::startDetached(program, arguments);
           qDebug() << QString("Starting process: %1 %2").arg(program).arg(arguments.join(" "));
           bench = new windowBench(this);
-          bench->filename = fileName;
+          bench->filename = fileNameRes;
           bench->show();
         }
       } else {
