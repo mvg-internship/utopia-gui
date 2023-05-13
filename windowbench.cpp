@@ -32,8 +32,10 @@ windowBench::windowBench(QWidget* window ) {
 }
 void windowBench::runBench(){
   QString program = shellVariable2;
-  QStringList arguments;
-  arguments << filename << text;
+  QStringList arguments = text.split(' ', Qt::SkipEmptyParts);
+  arguments.prepend(filename);
   QProcess::startDetached(program, arguments);
   qDebug() << QString("Starting process: %1 %2").arg(program).arg(arguments.join(" "));
 }
+
+
