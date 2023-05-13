@@ -161,7 +161,7 @@ void MainWindow::displayGraph(QMap<QString, QVector<QString>> &adjList) {
   agclose(g);
   gvFreeContext(gvc);
 }
-void MainWindow::exportResults(){
+void MainWindow::exportResults() {
   QMap<QString, QVector<QString>> adjList;
   std::filesystem::path filePath(shellVariable1.toStdString());
   std::filesystem::path fullPath = filePath / "test/data/ril/test.ril";
@@ -169,17 +169,31 @@ void MainWindow::exportResults(){
   QStringList filters;
   filters << "XML Files (*.xml)" << "Verilog Files (*.v)" << "Bench Files (*bench)";
   QString filterString = filters.join(";;");
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), filterString);//choose a file
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QString::fromStdString(fullPath.string()), filterString);  // choose a file
 
   if (!fileName.isEmpty()) {
     if (fileName.endsWith(".xml", Qt::CaseInsensitive)) {
-      loadGraph(fileName, adjList);
-      displayGraph(adjList);
+      QStringList libraryFilters;
+      libraryFilters << "GraphViz" << "BasicViz";
+      QString selectedLibraryFilter = QInputDialog::getItem(this, tr("Select Library"), tr("Select a library:"), libraryFilters);
+
+      if (!selectedLibraryFilter.isEmpty()) {
+        if (selectedLibraryFilter == libraryFilters[0]) {
+          loadGraph(fileName, adjList);
+          displayGraph(adjList);
+        } else if (selectedLibraryFilter == libraryFilters[1]) {
+          bench = new windowBench(this);
+          bench->filename = fileName;
+          bench->show();
+        }
+      } else {
+        qDebug() << "No library selected";
+      }
     } else if (fileName.endsWith(".v", Qt::CaseInsensitive)) {
       utopiaRun = new windowRun(this);
       utopiaRun->b = fileName;
-      utopiaRun->text = " ";//here will be the option which need to generate xml file
-      utopiaRun->onBtnRunUtopiaClicked();//run Utopia
+      utopiaRun->text = " ";  // here will be the option which need to generate xml file
+      utopiaRun->onBtnRunUtopiaClicked();  // run Utopia
     } else if (fileName.endsWith(".bench", Qt::CaseInsensitive)) {
       bench = new windowBench(this);
       bench->filename = fileName;
@@ -189,7 +203,6 @@ void MainWindow::exportResults(){
     qDebug() << "No file selected";
   }
 }
-
 
 void MainWindow::openFileinWindow(const QString &filePath) {
   if (!filePath.isEmpty()) {

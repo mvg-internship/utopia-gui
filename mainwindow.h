@@ -23,6 +23,7 @@
 #include <QXmlStreamReader>
 #include <QRect>
 #include <QtGlobal>
+#include <QInputDialog>
 #include <random>
 #include <stdio.h>
 #include <string.h>
