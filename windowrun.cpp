@@ -57,7 +57,9 @@ void windowRun::handleApplyTestButton(){
   b = a;
 }
 void windowRun::onBtnRunUtopiaClicked() {
-  QString program = shellVariable + "/build/src/umain";
+  std::filesystem::path filePath(shellVariable.toStdString());
+  std::filesystem::path fullPath = filePath / "build/src/umain";
+  QString program = QString::fromStdString(fullPath.string());
   QStringList arguments;
   arguments << text << b;
   QProcess::startDetached(program, arguments);
