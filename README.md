@@ -36,11 +36,19 @@ Or using vpn you can download it from the official site:
   
   sudo apt-get install libsdl2-ttf-dev
   
-3) https://github.com/yaksase/basicviz
+3) https://github.com/mvg-internship/basicviz
   cmake -S . -B build # -G Ninja, etc.
   cd build
   make                # ninja, etc.
+  
+4) https://github.com/mvg-internship/utopia-eda
 
+   install according to readme in Utopia-Eda
+   
+5) https://github.com/mvg-internship/vtr-fpga-arch
+
+   install according to readme in FPGA
+   
 ### Upload GraphViz
 
 sudo apt install graphviz graphviz-dev
